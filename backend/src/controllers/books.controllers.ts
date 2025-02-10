@@ -1,8 +1,8 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { validationResult } from 'express-validator';
 import booksService from '../services/books.services'
 
-async function getBooks(req: Request, res: Response) {
+async function getBooks(req: Request, res: Response, next: NextFunction) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         res.status(400).json({ errors: errors.array() });
@@ -15,17 +15,19 @@ async function getBooks(req: Request, res: Response) {
         const books = await booksService.getBooks(limit, offset, search)
         res.json(books)
     } catch(error: any) {
-        res.status(500).json({ message: "Error retrieving books", error: error.message })
+        error.message = 'Error retrieving books'
+        next(error)
     }
 }
 
-async function getBookById(req: Request, res: Response) {
+async function getBookById(req: Request, res: Response, next: NextFunction) {
     const id = req.params.bookId as string
     try {
         const book = await booksService.getBookById(id)
         res.json(book)
     } catch(error: any) {
-        res.status(500).json({ message: "Error retrieving books", error: error.message })
+        error.message = 'Error retrieving the book'
+        next(error)
     }
 }
 

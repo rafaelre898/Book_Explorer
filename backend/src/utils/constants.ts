@@ -12,6 +12,7 @@ const getEnvVar = (key: string): string => {
 // env variables
 export const GOOGLE_BOOKS_API_URL = getEnvVar('GOOGLE_BOOKS_API_URL')
 export const PORT = getEnvVar('PORT')
+export const SECRET_KEY = getEnvVar('SECRET_KEY')
 
 // constant variables
 export const DEFAULT_RATING = 'No rating'
