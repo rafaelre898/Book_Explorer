@@ -1,10 +1,12 @@
 import { Router } from "express";
-import booksController from '../controllers/books.controllers'
 import { param, query } from "express-validator";
+import booksController from '../controllers/books.controllers'
+import { authenticateJWT } from "../middlewares/auth.middleware";
 
 const router = Router()
 
 router.get('/books',
+    authenticateJWT,
     [
         query('limit')
             .optional()
@@ -27,6 +29,7 @@ router.get('/books',
 );
 
 router.get('/books/:bookId',
+    authenticateJWT,
     [
         param('bookId')
             .isString()
