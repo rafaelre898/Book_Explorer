@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { UserTokenPayload } from "../types/user.types";
 
 dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY || "default_secret";
 
-interface AuthRequest extends Request {
-  user?: any;
+export interface AuthRequest extends Request {
+  user?: UserTokenPayload;
 }
 
 export function authenticateJWT(req: AuthRequest, res: Response, next: NextFunction) {
@@ -20,7 +21,7 @@ export function authenticateJWT(req: AuthRequest, res: Response, next: NextFunct
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, SECRET_KEY);
+    const decoded = jwt.verify(token, SECRET_KEY) as UserTokenPayload;
     req.user = decoded;
     next();
   } catch (err) {

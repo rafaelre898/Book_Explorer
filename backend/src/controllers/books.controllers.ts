@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
 import { validationResult } from 'express-validator';
 import booksService from '../services/books.services'
+import { AuthRequest } from '../middlewares/auth.middleware';
 
-async function getBooks(req: Request, res: Response, next: NextFunction) {
+async function getBooks(req: AuthRequest, res: Response, next: NextFunction) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         res.status(400).json({ errors: errors.array() });
@@ -20,7 +21,7 @@ async function getBooks(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-async function getBookById(req: Request, res: Response, next: NextFunction) {
+async function getBookById(req: AuthRequest, res: Response, next: NextFunction) {
     const id = req.params.bookId as string
     try {
         const book = await booksService.getBookById(id)
