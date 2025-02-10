@@ -1,25 +1,37 @@
-import { Router } from "express";
-import { check } from "express-validator";
-import usersControllers from "../controllers/users.controllers";
+import { check } from "express-validator"
+import { Router } from "express"
+import usersControllers from "../controllers/users.controllers"
 
-const router = Router();
+const router = Router()
 
 router.post(
   "/login",
   [
-    check("email").isEmail().withMessage("Invalid email format").normalizeEmail(),
-    check("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long").trim(),
+    check("email")
+      .isEmail()
+      .withMessage("Invalid email format")
+      .normalizeEmail(),
+    check("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters long")
+      .trim(),
   ],
-  usersControllers.login
-);
+  usersControllers.login,
+)
 
 router.post(
   "/signup",
   [
-    check("email").isEmail().withMessage("Invalid email format").normalizeEmail(),
-    check("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long").trim(),
+    check("email")
+      .isEmail()
+      .withMessage("Invalid email format")
+      .normalizeEmail(),
+    check("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters long")
+      .trim(),
   ],
-  usersControllers.signup
-);
+  usersControllers.signup,
+)
 
-export default router;
+export default router
