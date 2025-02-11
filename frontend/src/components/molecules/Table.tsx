@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Button from "../atoms/Button";
 import Image from "next/image";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
+import BookModal from "../molecules/BookModal";
 
 export interface Book {
   id: string;
@@ -22,6 +23,8 @@ interface TableProps {
 }
 
 function Table({ books, currentPage, onPageChange }: TableProps) {
+  const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
+
   return (
     <div className="w-[1000px] p-4 border rounded shadow-md mx-auto">
       <table className="w-full border-collapse">
@@ -38,7 +41,11 @@ function Table({ books, currentPage, onPageChange }: TableProps) {
         <tbody>
           {books.length > 0 ? (
             books.map((book) => (
-              <tr key={book.id} className="border-t">
+              <tr
+                key={book.id}
+                className="border-t cursor-pointer hover:bg-gray-100"
+                onClick={() => setSelectedBookId(book.id)}
+              >
                 <td className="p-2">
                   {book?.thumbnail && (
                     <Image
@@ -66,6 +73,7 @@ function Table({ books, currentPage, onPageChange }: TableProps) {
           )}
         </tbody>
       </table>
+
       <div className="flex items-center mt-4 mx-auto w-fit gap-4">
         <Button
           className="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded"
@@ -82,6 +90,13 @@ function Table({ books, currentPage, onPageChange }: TableProps) {
           <MdNavigateNext />
         </Button>
       </div>
+
+      {selectedBookId && (
+        <BookModal
+          bookId={selectedBookId}
+          onClose={() => setSelectedBookId(null)}
+        />
+      )}
     </div>
   );
 }

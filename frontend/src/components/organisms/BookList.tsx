@@ -29,6 +29,7 @@ function BookList() {
   useEffect(() => {
     if (!localStorage.getItem("user")) return router.push("/login");
   }, []);
+
   useEffect(() => {
     const offset = (currentPage - 1) * booksPerPage;
     const token = getToken();
@@ -43,12 +44,14 @@ function BookList() {
         setBooks(res.data);
       });
   }, [search, currentPage]);
+
   const getToken = () => {
     const userString = localStorage.getItem("user");
     const user = userString ? JSON.parse(userString) : null;
     const token = user?.token || "";
     return token;
   };
+
   return (
     <div className="p-4">
       <h1 className="text-4xl text-center py-8">Book Explorer</h1>
