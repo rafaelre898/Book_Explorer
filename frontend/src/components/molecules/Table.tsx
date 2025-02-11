@@ -2,6 +2,7 @@
 import React from "react";
 import Button from "../atoms/Button";
 import Image from "next/image";
+import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 
 export interface Book {
   id: string;
@@ -9,7 +10,7 @@ export interface Book {
   authors?: string[];
   publication_year?: string;
   genre?: string[];
-  rating?: number;
+  rating?: number | string;
   thumbnail?: string;
 }
 
@@ -26,7 +27,7 @@ function Table({ books, currentPage, booksPerPage, onPageChange }: TableProps) {
   const selectedBooks = books?.slice(startIndex, startIndex + booksPerPage);
 
   return (
-    <div className="w-full p-4 border rounded shadow-md">
+    <div className="w-[1000px] p-4 border rounded shadow-md mx-auto">
       <table className="w-full border-collapse">
         <thead>
           <tr className="bg-gray-200 text-left">
@@ -61,13 +62,12 @@ function Table({ books, currentPage, booksPerPage, onPageChange }: TableProps) {
           ))}
         </tbody>
       </table>
-      {/* Pagination Controls */}
-      <div className="flex justify-between items-center mt-4">
+      <div className="flex items-center mt-4 mx-auto w-fit gap-4">
         <Button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
-          Previous
+          <MdNavigateBefore />
         </Button>
         <span>
           Page {currentPage} of {totalPages}
@@ -76,7 +76,7 @@ function Table({ books, currentPage, booksPerPage, onPageChange }: TableProps) {
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
-          Next
+          <MdNavigateNext />
         </Button>
       </div>
     </div>
