@@ -1,4 +1,4 @@
-import LoginForm from "@/components/organisms/LoginForm";
+import SignupForm from "@/components/organisms/SignupForm";
 import React from "react";
 
 type Props = {};
@@ -6,7 +6,7 @@ type Props = {};
 function page({}: Props) {
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-      <LoginForm />
+      <SignupForm />
     </div>
   );
 }
