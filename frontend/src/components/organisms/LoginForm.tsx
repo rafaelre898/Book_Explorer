@@ -1,13 +1,13 @@
 "use client";
-
 import React, { useState } from "react";
 import FormField from "../molecules/FormField";
 import Button from "../atoms/Button";
 import axiosInstance from "@/utils/axios";
+import { useRouter } from "next/navigation";
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
-
+  const router = useRouter();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -18,7 +18,10 @@ const LoginForm: React.FC = () => {
       .post("/login", {
         ...formData,
       })
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        console.log(res.data);
+        router.push("/home");
+      })
       .catch((err) => console.log(err));
   };
 

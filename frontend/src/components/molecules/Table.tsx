@@ -1,32 +1,29 @@
-"use client"
-import React from "react"
-import Button from "../atoms/Button"
+"use client";
+import React from "react";
+import Button from "../atoms/Button";
+import Image from "next/image";
 
 export interface Book {
-  id: string
-  volumeInfo: {
-    title: string
-    authors?: string[]
-    publishedDate?: string
-    categories?: string[]
-    averageRating?: number
-    imageLinks?: {
-      thumbnail?: string
-    }
-  }
+  id: string;
+  title: string;
+  authors?: string[];
+  publication_year?: string;
+  genre?: string[];
+  rating?: number;
+  thumbnail?: string;
 }
 
 interface TableProps {
-  books: Book[]
-  currentPage: number
-  booksPerPage: number
-  onPageChange: (page: number) => void
+  books: Book[];
+  currentPage: number;
+  booksPerPage: number;
+  onPageChange: (page: number) => void;
 }
 
 function Table({ books, currentPage, booksPerPage, onPageChange }: TableProps) {
-  const totalPages = Math.ceil(books?.length / booksPerPage) || 0
-  const startIndex = (currentPage - 1) * booksPerPage
-  const selectedBooks = books?.slice(startIndex, startIndex + booksPerPage)
+  const totalPages = Math.ceil(books?.length / booksPerPage) || 0;
+  const startIndex = (currentPage - 1) * booksPerPage;
+  const selectedBooks = books?.slice(startIndex, startIndex + booksPerPage);
 
   return (
     <div className="w-full p-4 border rounded shadow-md">
@@ -45,23 +42,21 @@ function Table({ books, currentPage, booksPerPage, onPageChange }: TableProps) {
           {selectedBooks?.map((book) => (
             <tr key={book.id} className="border-t">
               <td className="p-2">
-                {book.volumeInfo.imageLinks?.thumbnail && (
-                  <img
-                    src={book.volumeInfo.imageLinks.thumbnail}
-                    alt={book.volumeInfo.title}
+                {book?.thumbnail && (
+                  <Image
+                    src={book.thumbnail}
+                    alt={book.title}
                     className="w-12 h-12"
+                    width={100}
+                    height={100}
                   />
                 )}
               </td>
-              <td className="p-2">{book.volumeInfo.title}</td>
-              <td className="p-2">
-                {book.volumeInfo.authors?.join(", ") || "N/A"}
-              </td>
-              <td className="p-2">{book.volumeInfo.publishedDate || "N/A"}</td>
-              <td className="p-2">
-                {book.volumeInfo.categories?.join(", ") || "N/A"}
-              </td>
-              <td className="p-2">{book.volumeInfo.averageRating || "N/A"}</td>
+              <td className="p-2">{book.title}</td>
+              <td className="p-2">{book.authors?.join(", ") || "N/A"}</td>
+              <td className="p-2">{book.publication_year || "N/A"}</td>
+              <td className="p-2">{book.genre || "N/A"}</td>
+              <td className="p-2">{book.rating || "N/A"}</td>
             </tr>
           ))}
         </tbody>
@@ -85,7 +80,7 @@ function Table({ books, currentPage, booksPerPage, onPageChange }: TableProps) {
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
-export default Table
+export default Table;
