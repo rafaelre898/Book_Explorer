@@ -4,16 +4,7 @@ import Button from "../atoms/Button";
 import Image from "next/image";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import BookModal from "../molecules/BookModal";
-
-export interface Book {
-  id: string;
-  title: string;
-  authors?: string[];
-  publication_year?: string;
-  genre?: string[];
-  rating?: number | string;
-  thumbnail?: string;
-}
+import { Book } from "@/types/book";
 
 interface TableProps {
   books: Book[];

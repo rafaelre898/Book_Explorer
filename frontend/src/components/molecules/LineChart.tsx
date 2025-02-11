@@ -30,11 +30,11 @@ interface LineChartProps {
 
 const LineChart: React.FC<LineChartProps> = ({ years, ratings }) => {
   const data = {
-    labels: years, // Years as labels
+    labels: years,
     datasets: [
       {
         label: "Books Ratings Over Time",
-        data: ratings, // Ratings for each book
+        data: ratings,
         fill: false,
         borderColor: "rgba(75,192,192,1)",
         tension: 0.3,
@@ -63,7 +63,7 @@ const LineChart: React.FC<LineChartProps> = ({ years, ratings }) => {
           text: "Rating",
         },
         min: 0,
-        max: 5, // Ratings are out of 5
+        max: 5,
       },
     },
   };

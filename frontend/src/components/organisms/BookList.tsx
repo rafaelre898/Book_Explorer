@@ -2,10 +2,11 @@
 import { useEffect, useState } from "react";
 import Input from "../atoms/Input";
 import Label from "../atoms/Label";
-import Table, { Book } from "../molecules/Table";
+import Table from "../molecules/Table";
 import axiosInstance from "@/utils/axios";
 import LineChart from "../molecules/LineChart";
 import { useRouter } from "next/navigation";
+import { Book } from "@/types/book";
 
 function BookList() {
   const router = useRouter();

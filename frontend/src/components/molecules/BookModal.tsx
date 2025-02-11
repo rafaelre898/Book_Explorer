@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axios";
 import Loader from "../atoms/Loader";
+import { Book } from "@/types/book";
 
 interface BookModalProps {
   bookId: string | null;
@@ -9,7 +10,7 @@ interface BookModalProps {
 }
 
 const BookModal: React.FC<BookModalProps> = ({ bookId, onClose }) => {
-  const [book, setBook] = useState<any>(null);
+  const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
