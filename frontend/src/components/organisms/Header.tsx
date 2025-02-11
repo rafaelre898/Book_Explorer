@@ -6,11 +6,9 @@ import { useRouter } from "next/navigation";
 
 const Header: React.FC = () => {
   const router = useRouter();
-  //   const dispatch = useDispatch();
-
   const handleLogout = () => {
     localStorage.clear();
-    router.push("/login"); // Redirect to login page
+    router.push("/login");
   };
 
   return (

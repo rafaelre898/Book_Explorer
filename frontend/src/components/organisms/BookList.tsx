@@ -41,7 +41,6 @@ function BookList() {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setBooks(res.data);
       });
   }, [search, currentPage]);

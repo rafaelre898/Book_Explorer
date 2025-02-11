@@ -6,6 +6,7 @@ import axiosInstance from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { APIError, APIFieldError } from "@/types/api";
+import Link from "next/link";
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -18,7 +19,7 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null); // Reset error before new request
+    setError(null);
 
     try {
       const res = await axiosInstance.post("/login", formData);
@@ -73,6 +74,12 @@ const LoginForm: React.FC = () => {
         />
         {error && <p className="text-red-500 text-sm">{error}</p>}
         <Button type="submit">Login</Button>
+        <p>
+          Dont have an account?{" "}
+          <Link className="text-blue-500" href={"/signup"}>
+            Signup
+          </Link>
+        </p>
       </div>
     </form>
   );
