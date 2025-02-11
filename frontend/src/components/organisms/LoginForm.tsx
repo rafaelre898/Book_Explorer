@@ -7,22 +7,32 @@ import { useRouter } from "next/navigation";
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    axiosInstance
-      .post("/login", {
-        ...formData,
-      })
-      .then((res) => {
-        console.log(res.data);
-        router.push("/home");
-      })
-      .catch((err) => console.log(err));
+    setError(null); // Reset error before new request
+
+    try {
+      const res = await axiosInstance.post("/login", formData);
+      localStorage.setItem("user", JSON.stringify(res?.data?.data || ""));
+      router.push("/home");
+    } catch (err: any) {
+      const errorResponse = err.response?.data;
+
+      if (errorResponse?.message) {
+        setError(errorResponse.message);
+      } else if (errorResponse?.errors && Array.isArray(errorResponse.errors)) {
+        setError(errorResponse.errors.map((errObj) => errObj.msg).join(", "));
+      } else {
+        setError("An unexpected error occurred");
+      }
+    }
   };
 
   return (
@@ -48,6 +58,7 @@ const LoginForm: React.FC = () => {
           onChange={handleChange}
           value={formData.password}
         />
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         <Button type="submit">Login</Button>
       </div>
     </form>

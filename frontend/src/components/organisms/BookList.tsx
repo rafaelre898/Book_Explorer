@@ -5,22 +5,15 @@ import Label from "../atoms/Label";
 import Table, { Book } from "../molecules/Table";
 import axiosInstance from "@/utils/axios";
 import LineChart from "../molecules/LineChart";
+import { useRouter } from "next/navigation";
 
-interface BookListProps {}
-
-function BookList({}: BookListProps) {
+function BookList() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 5;
 
   const [books, setBooks] = useState<Book[]>([]);
-
-  useEffect(() => {
-    axiosInstance
-      .get("http://localhost:5000/api/books")
-      .then((res) => setBooks(res.data))
-      .catch((err) => console.error("Error fetching books:", err));
-  }, []);
 
   const validBooks = books
     .filter((book) => book.rating !== "No rating")
@@ -33,16 +26,32 @@ function BookList({}: BookListProps) {
   const years = validBooks.map((book) => book.year);
   const ratings = validBooks.map((book) => book.rating);
 
-  const filteredBooks = books.filter((book) =>
-    book.title?.toLowerCase().includes(search?.toLowerCase())
-  );
   useEffect(() => {
-    axiosInstance.get(`/books?search=${search}`).then((res) => {
-      setBooks(res.data);
-    });
-  }, [search]);
+    if (!localStorage.getItem("user")) return router.push("/login");
+  }, []);
+  useEffect(() => {
+    const offset = (currentPage - 1) * booksPerPage;
+    const token = getToken();
+    axiosInstance
+      .get(`/books?search=${search}&offset=${offset}&limit=${booksPerPage}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setBooks(res.data);
+      });
+  }, [search, currentPage]);
+  const getToken = () => {
+    const userString = localStorage.getItem("user");
+    const user = userString ? JSON.parse(userString) : null;
+    const token = user?.token || "";
+    return token;
+  };
   return (
     <div className="p-4">
+      <h1 className="text-4xl text-center py-8">Book Explorer</h1>
       <div className="mb-4 flex items-center w-[500px] mx-auto gap-3">
         <Label htmlFor="search">Search:</Label>
         <Input
@@ -54,12 +63,16 @@ function BookList({}: BookListProps) {
         />
       </div>
       <Table
-        books={filteredBooks}
+        books={books}
         currentPage={currentPage}
         booksPerPage={booksPerPage}
         onPageChange={setCurrentPage}
       />
-      <div className="w-[1000px] mx-auto mt-10">
+      <div className="text-center py-8">
+        <h3 className="text-4xl py-4">Ratings</h3>
+        <p>See whats trending over the years..</p>
+      </div>
+      <div className="w-[800px] mx-auto mt-10">
         <LineChart years={years} ratings={ratings} />
       </div>
     </div>

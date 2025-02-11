@@ -21,11 +21,7 @@ interface TableProps {
   onPageChange: (page: number) => void;
 }
 
-function Table({ books, currentPage, booksPerPage, onPageChange }: TableProps) {
-  const totalPages = Math.ceil(books?.length / booksPerPage) || 0;
-  const startIndex = (currentPage - 1) * booksPerPage;
-  const selectedBooks = books?.slice(startIndex, startIndex + booksPerPage);
-
+function Table({ books, currentPage, onPageChange }: TableProps) {
   return (
     <div className="w-[1000px] p-4 border rounded shadow-md mx-auto">
       <table className="w-full border-collapse">
@@ -40,41 +36,48 @@ function Table({ books, currentPage, booksPerPage, onPageChange }: TableProps) {
           </tr>
         </thead>
         <tbody>
-          {selectedBooks?.map((book) => (
-            <tr key={book.id} className="border-t">
-              <td className="p-2">
-                {book?.thumbnail && (
-                  <Image
-                    src={book.thumbnail}
-                    alt={book.title}
-                    className="w-12 h-12"
-                    width={100}
-                    height={100}
-                  />
-                )}
+          {books.length > 0 ? (
+            books.map((book) => (
+              <tr key={book.id} className="border-t">
+                <td className="p-2">
+                  {book?.thumbnail && (
+                    <Image
+                      src={book.thumbnail}
+                      alt={book.title}
+                      className="w-12 h-12"
+                      width={100}
+                      height={100}
+                    />
+                  )}
+                </td>
+                <td className="p-2">{book.title}</td>
+                <td className="p-2">{book.authors?.join(", ") || "N/A"}</td>
+                <td className="p-2">{book.publication_year || "N/A"}</td>
+                <td className="p-2">{book.genre || "N/A"}</td>
+                <td className="p-2">{book.rating || "N/A"}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={6} className="text-center p-4">
+                No books found
               </td>
-              <td className="p-2">{book.title}</td>
-              <td className="p-2">{book.authors?.join(", ") || "N/A"}</td>
-              <td className="p-2">{book.publication_year || "N/A"}</td>
-              <td className="p-2">{book.genre || "N/A"}</td>
-              <td className="p-2">{book.rating || "N/A"}</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
       <div className="flex items-center mt-4 mx-auto w-fit gap-4">
         <Button
+          className="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
           <MdNavigateBefore />
         </Button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
+        <span>Page {currentPage}</span>
         <Button
+          className="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded"
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
         >
           <MdNavigateNext />
         </Button>

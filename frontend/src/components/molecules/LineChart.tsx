@@ -33,7 +33,7 @@ const LineChart: React.FC<LineChartProps> = ({ years, ratings }) => {
     labels: years, // Years as labels
     datasets: [
       {
-        label: "Book Ratings Over Time",
+        label: "Books Ratings Over Time",
         data: ratings, // Ratings for each book
         fill: false,
         borderColor: "rgba(75,192,192,1)",
