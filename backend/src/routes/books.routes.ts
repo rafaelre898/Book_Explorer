@@ -2,6 +2,12 @@ import { Router } from "express"
 import { param, query } from "express-validator"
 import { authenticateJWT } from "../middlewares/auth.middleware"
 import booksController from "../controllers/books.controllers"
+import {
+  BOOK_ID_VALIDATION_MSG,
+  LIMIT_VALIDATION_MSG,
+  OFFSET_VALIDATION_MSG,
+  SEARCH_VALIDATION_MSG,
+} from "../utils/constants"
 
 const router = Router()
 
@@ -12,19 +18,19 @@ router.get(
     query("limit")
       .optional()
       .isInt({ min: 1 })
-      .withMessage("Limit must be a positive integer")
+      .withMessage(LIMIT_VALIDATION_MSG)
       .toInt(),
     query("offset")
       .optional()
       .isInt({ min: 0 })
-      .withMessage("Offset must be a non-negative integer")
+      .withMessage(OFFSET_VALIDATION_MSG)
       .toInt(),
     query("search")
       .optional()
       .isString()
       .trim()
       .escape()
-      .withMessage("Search must be a string"),
+      .withMessage(SEARCH_VALIDATION_MSG),
   ],
   booksController.getBooks,
 )
@@ -37,7 +43,7 @@ router.get(
       .isString()
       .trim()
       .notEmpty()
-      .withMessage("Book ID is required and must be a string"),
+      .withMessage(BOOK_ID_VALIDATION_MSG),
   ],
   booksController.getBookById,
 )

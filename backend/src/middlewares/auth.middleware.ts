@@ -2,6 +2,7 @@ import dotenv from "dotenv"
 import jwt from "jsonwebtoken"
 import { NextFunction, Request, Response } from "express"
 import { UserTokenPayload } from "../types/user.types"
+import { ACCESS_DENIED, INVALID_TOKEN } from "../utils/constants"
 
 dotenv.config()
 const SECRET_KEY = process.env.SECRET_KEY || "default_secret"
@@ -18,9 +19,7 @@ export function authenticateJWT(
   const authHeader = req.header("Authorization")
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    res
-      .status(401)
-      .json({ success: false, message: "Access denied. No token provided." })
+    res.status(401).json({ success: false, message: ACCESS_DENIED })
     return
   }
 
@@ -31,6 +30,6 @@ export function authenticateJWT(
     req.user = decoded
     next()
   } catch (error) {
-    res.status(403).json({ success: false, message: "Invalid token.", error })
+    res.status(403).json({ success: false, message: INVALID_TOKEN, error })
   }
 }

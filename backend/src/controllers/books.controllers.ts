@@ -2,6 +2,7 @@ import { NextFunction, Response } from "express"
 import { validationResult } from "express-validator"
 import { AuthRequest } from "../middlewares/auth.middleware"
 import booksService from "../services/books.services"
+import { GET_BOOKS_ERROR, GET_BOOK_ERROR } from "../utils/constants"
 
 async function getBooks(req: AuthRequest, res: Response, next: NextFunction) {
   const errors = validationResult(req)
@@ -16,7 +17,7 @@ async function getBooks(req: AuthRequest, res: Response, next: NextFunction) {
     const books = await booksService.getBooks(limit, offset, search)
     res.json(books)
   } catch (error: any) {
-    error.message = "Error retrieving books"
+    error.message = GET_BOOKS_ERROR
     next(error)
   }
 }
@@ -31,7 +32,7 @@ async function getBookById(
     const book = await booksService.getBookById(id)
     res.json(book)
   } catch (error: any) {
-    error.message = "Error retrieving the book"
+    error.message = GET_BOOK_ERROR
     next(error)
   }
 }
