@@ -2,5 +2,9 @@
   {
     "email": "abc@abc.com",
     "password": "$2a$10$FSPyP8KnS3e9E0yXFdV9rOPZ5IkZGRaTnkt0.0yHd3ufZvtg/0gGy"
+  },
+  {
+    "email": "def@gmail.com",
+    "password": "$2a$10$4F8rLkjDFo.pF021mFM4HOijPriXArFRUZBgbFOAiZBUjhKKL9G6i"
   }
 ]

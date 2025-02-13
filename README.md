@@ -10,6 +10,7 @@ Book Explorer is a a full-stack web application where users can browse, search, 
 - [Running the Project](#running-the-project)
   - [Running the Frontend](#running-the-frontend)
   - [Running the Backend](#running-the-backend)
+  - [Running the Backend with Docker](#running-the-backend-with-docker)
 - [API Documentation](#api-documentation)
 - [Environment Variables](#environment-variables)
 - [Linting & Formatting](#linting--formatting)
@@ -110,6 +111,7 @@ backend
 
 - **Node.js** (v16 or later recommended)
 - **npm** (recommended)
+- **Docker** (for running the backend with Docker Compose)
 
 ### Clone the Repository
 
@@ -159,6 +161,23 @@ npm run dev
 ```
 
 This starts the backend at `http://localhost:5000` (or as configured in `.env`).
+
+### Running the Backend with Docker
+
+To run the backend using Docker Compose, ensure Docker is installed and running, then execute:
+
+```sh
+cd backend
+docker-compose up --build
+```
+
+This will build and start the backend container. The backend will be available at `http://localhost:5000`.
+
+To stop the backend container, run:
+
+```sh
+docker-compose down
+```
 
 ---
 

@@ -1,19 +1,20 @@
 import { check } from "express-validator"
 import { Router } from "express"
 import usersControllers from "../controllers/users.controllers"
+import {
+  EMAIL_VALIDATION_MSG,
+  PASSWORD_VALIDATION_MSG,
+} from "../utils/constants"
 
 const router = Router()
 
 router.post(
   "/login",
   [
-    check("email")
-      .isEmail()
-      .withMessage("Invalid email format")
-      .normalizeEmail(),
+    check("email").isEmail().withMessage(EMAIL_VALIDATION_MSG).normalizeEmail(),
     check("password")
       .isLength({ min: 6 })
-      .withMessage("Password must be at least 6 characters long")
+      .withMessage(PASSWORD_VALIDATION_MSG)
       .trim(),
   ],
   usersControllers.login,
@@ -22,13 +23,10 @@ router.post(
 router.post(
   "/signup",
   [
-    check("email")
-      .isEmail()
-      .withMessage("Invalid email format")
-      .normalizeEmail(),
+    check("email").isEmail().withMessage(EMAIL_VALIDATION_MSG).normalizeEmail(),
     check("password")
       .isLength({ min: 6 })
-      .withMessage("Password must be at least 6 characters long")
+      .withMessage(PASSWORD_VALIDATION_MSG)
       .trim(),
   ],
   usersControllers.signup,

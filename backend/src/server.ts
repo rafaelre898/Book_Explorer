@@ -1,10 +1,11 @@
 import cors from "cors"
 import dotenv from "dotenv"
-import express, { NextFunction } from "express"
+import express from "express"
 import booksRouter from "./routes/books.routes"
 import usersRouter from "./routes/users.routes"
 import errorMiddleware from "./middlewares/error.middleware"
 import { PORT } from "./utils/constants"
+import notFoundMiddleware from "./middlewares/notFound.middleware"
 
 const app = express()
 
@@ -14,11 +15,7 @@ app.use(cors())
 app.use("/api", booksRouter)
 app.use("/api", usersRouter)
 
-app.use((_req, _res, next: NextFunction) => {
-  const error: any = new Error("Route Not Found")
-  error.status = 404
-  next(error)
-})
+app.use(notFoundMiddleware)
 
 app.use(errorMiddleware)
 
